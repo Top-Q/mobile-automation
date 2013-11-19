@@ -423,4 +423,14 @@ public class MobileClient implements MobileClientInterface {
 		return sendData("click", expression);
 	}
 
+	@Override
+	public CommandResponse clickOnWebElement(String by, String expression) throws Exception {
+		return sendData("clickOnWebElement", by, expression);
+	}
+
+	@Override
+	public CommandResponse enterTextInWebElement(String by, String expression, String text) throws Exception {
+		return sendData("enterTextInWebElement", by, expression, text);
+	}
+
 }

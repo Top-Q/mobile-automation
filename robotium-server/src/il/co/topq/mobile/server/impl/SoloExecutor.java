@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.jayway.android.robotium.solo.By;
 import com.jayway.android.robotium.solo.Solo;
 import com.jayway.android.robotium.solo.SoloEnhanced;
 
@@ -154,6 +155,10 @@ public class SoloExecutor {
 			response = getAllVisibleIds();
 		} else if (commandStr.equals("click")) {
 			response = click(request.getParams());
+		} else if (commandStr.equals("clickOnWebElement")) {
+			response = clickOnWebElement(request.getParams());
+		} else if (commandStr.equals("enterTextInWebElement")) {
+			response = enterTextInWebElement(request.getParams());
 		}
 		response.setOriginalCommand(request.getCommand());
 		response.setParams(request.getParams());
@@ -163,6 +168,77 @@ public class SoloExecutor {
 
 	}
 
+	private CommandResponse enterTextInWebElement(String[] params) {
+		CommandResponse result = new CommandResponse();
+		result.setOriginalCommand("enterTextInWebElement");
+		Log.i(TAG, "About to enter text in web element");
+		String byStr = params[0];
+		String expression = params[1];
+		String text = params[2];
+		if (byStr == null || byStr.equals("")) {
+			result.setSucceeded(false);
+			result.setResponse("By paramter can't be null");
+			return result;
+		}
+		By by = parseWebComponenetLocator(byStr, expression);
+		;
+		try {
+			solo.enterTextInWebElement(by, text);
+			result.setSucceeded(true);
+			result.setResponse("Entered text in web element using locator " + byStr + " and expression " + expression);
+		} catch (Exception e) {
+			handleException(result.getOriginalCommand(), e);
+		}
+		return result;
+
+	}
+
+	private CommandResponse clickOnWebElement(String[] params) {
+		CommandResponse result = new CommandResponse();
+		result.setOriginalCommand("clickOnWebElement");
+		Log.i(TAG, "About to click on web element");
+		String byStr = params[0];
+		String expression = params[1];
+		if (byStr == null || byStr.equals("")) {
+			result.setSucceeded(false);
+			result.setResponse("By paramter can't be null");
+			return result;
+		}
+		By by = parseWebComponenetLocator(byStr, expression);
+		;
+		try {
+			solo.clickOnWebElement(by);
+			result.setSucceeded(true);
+			result.setResponse("Clicked on web element using locator " + byStr + " and expression " + expression);
+
+		} catch (Exception e) {
+			handleException(result.getOriginalCommand(), e);
+		}
+
+		return result;
+	}
+
+	private By parseWebComponenetLocator(String byStr, String expression) {
+		// TODO: Handle failure
+		By by = null;
+		if (byStr.equals("cssSelector")) {
+			by = By.cssSelector(expression);
+		} else if (byStr.equals("name")) {
+			by = By.name(expression);
+		} else if (byStr.equals("xpath")) {
+			by = By.xpath(expression);
+		} else if (byStr.equals("id")) {
+			by = By.id(expression);
+		} else if (byStr.equals("textContent")) {
+			by = By.textContent(expression);
+		} else if (byStr.equals("className")) {
+			by = By.className(expression);
+		} else if (byStr.equals("tagName")) {
+			by = By.tagName(expression);
+		}
+		return by;
+	}
+
 	private CommandResponse click(String[] params) {
 		CommandResponse result = new CommandResponse();
 		result.setOriginalCommand("click");
@@ -170,8 +246,8 @@ public class SoloExecutor {
 		Log.i(TAG, "About to click on " + expression);
 		try {
 			List<View> views = getViews(expression);
-			if (views.size() == 0){
-				result.setResponse("No views found to match expression "+expression);
+			if (views.size() == 0) {
+				result.setResponse("No views found to match expression " + expression);
 				result.setSucceeded(false);
 				return result;
 			}
