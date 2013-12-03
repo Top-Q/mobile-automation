@@ -187,7 +187,7 @@ public class SoloExecutor {
 			result.setSucceeded(true);
 			result.setResponse("Entered text in web element using locator " + byStr + " and expression " + expression);
 		} catch (Exception e) {
-			handleException(result.getOriginalCommand(), e);
+			result = handleException(result.getOriginalCommand(), e);
 		}
 		return result;
 
@@ -205,14 +205,13 @@ public class SoloExecutor {
 			return result;
 		}
 		By by = parseWebComponenetLocator(byStr, expression);
-		;
 		try {
 			solo.clickOnWebElement(by);
 			result.setSucceeded(true);
 			result.setResponse("Clicked on web element using locator " + byStr + " and expression " + expression);
 
 		} catch (Exception e) {
-			handleException(result.getOriginalCommand(), e);
+			result = handleException(result.getOriginalCommand(), e);
 		}
 
 		return result;
