@@ -181,6 +181,8 @@ public interface MobileClientInterface {
 
 	public CommandResponse isTextVisible(String text) throws Exception;
 
+	public CommandResponse assertTextVisible(String text) throws Exception;
+
 	public CommandResponse scrollDownUntilTextIsVisible(String text) throws Exception;
 
 	public CommandResponse getCurrentActivity() throws Exception;

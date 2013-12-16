@@ -331,6 +331,11 @@ public class MobileClient implements MobileClientInterface {
 	}
 
 	@Override
+	public CommandResponse assertTextVisible(String text) throws Exception {
+		return sendData("assertTextVisible", new String[] { text });
+	}
+
+	@Override
 	public CommandResponse scrollDownUntilTextIsVisible(String text) throws Exception {
 		return sendData("scrollDownUntilTextIsVisible", new String[] { text });
 	}

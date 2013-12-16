@@ -93,6 +93,8 @@ public class SoloExecutor {
 			response = scrollDown(request.getParams());
 		} else if (commandStr.equals("isTextVisible")) {
 			response = isTextVisible(request.getParams());
+		} else if (commandStr.equals("assertTextVisible")) {
+			response = assertTextVisible(request.getParams());
 		} else if (commandStr.equals("clickOnImageButton")) {
 			response = clickOnImagButton(request.getParams());
 		} else if (commandStr.equals("clickOnImage")) {
@@ -387,6 +389,25 @@ public class SoloExecutor {
 				result.setResponse(command + ",Response: " + response + " is not visible");
 			}
 			result.setSucceeded(true);
+		} catch (Throwable e) {
+			result = handleException(command, e);
+		}
+		return result;
+	}
+
+	private CommandResponse assertTextVisible(String[] params) {
+		String command = "the command is text visible";
+		CommandResponse result = new CommandResponse();
+		String response = "";
+		try {
+			response = "checking if text is visible";
+			if (solo.searchText(params[0])) {
+				result.setResponse(command + ",Response: " + response + " is visible");
+				result.setSucceeded(true);
+			} else {
+				result.setResponse(command + ",Response: " + response + " is not visible");
+				result.setSucceeded(false);
+			}
 		} catch (Throwable e) {
 			result = handleException(command, e);
 		}
