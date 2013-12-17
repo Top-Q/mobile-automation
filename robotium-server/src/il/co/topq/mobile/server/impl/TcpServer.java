@@ -137,10 +137,10 @@ public class TcpServer implements Runnable {
 					String response = dataExecutor.dataReceived(line);
 					Log.d(TAG,"Command response is : "+response);
 					clientOut.println(response);	
-				}  
-				catch (Exception e) {
-					Log.e(TAG, "Failed to process request due to" + e.getMessage());
-				} 
+				} catch (Exception e) {
+					Log.e(TAG, "Failed to process request. Received excpetion from type "
+							+ e.getClass().getSimpleName() + " with message " + e.getMessage());
+				}
 				finally {
 					// Closing resources
 					if (null != clientOut) {
