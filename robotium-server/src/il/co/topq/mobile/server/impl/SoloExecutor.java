@@ -184,7 +184,6 @@ public class SoloExecutor {
 		} catch (Throwable t){
 			result = handleException(result.getOriginalCommand(), t);
 		}
-		
 		return result;
 	}
 
