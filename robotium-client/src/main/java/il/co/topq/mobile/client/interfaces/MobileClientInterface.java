@@ -210,6 +210,8 @@ public interface MobileClientInterface {
 	public CommandResponse getAllVisibleIds() throws Exception;
 
 	public CommandResponse waitForActivity(String activity, int timeout) throws Exception;
+	
+	public CommandResponse finishOpenedActivities() throws Exception;
 
 	public CommandResponse clickOnWebElement(String by, String expression) throws Exception;
 

@@ -149,6 +149,8 @@ public class SoloExecutor {
 			response = activateIntent(request.getParams());
 		} else if (commandStr.equals("waitForActivity")) {
 			response = waitForActivity(request.getParams());
+		} else if (commandStr.equals("finishOpenedActivities")) {
+			response = finishOpenedActivities();
 		} else if (commandStr.equals("takeScreenshot")) {
 			response = takeScreenshot();
 		} else if (commandStr.equals("clickInList")) {
@@ -170,6 +172,22 @@ public class SoloExecutor {
 
 	}
 
+	private CommandResponse finishOpenedActivities() {
+		CommandResponse result = new CommandResponse();
+		result.setOriginalCommand("finishOpenedActivities");
+		Log.i(TAG, "About to finish opended activities");
+		try {
+			solo.finishOpenedActivities();
+			result.setSucceeded(true);
+			result.setResponse("All activities were closed");
+			
+		} catch (Throwable t){
+			result = handleException(result.getOriginalCommand(), t);
+		}
+		
+		return result;
+	}
+
 	private CommandResponse enterTextInWebElement(String[] params) {
 		CommandResponse result = new CommandResponse();
 		result.setOriginalCommand("enterTextInWebElement");
@@ -183,12 +201,11 @@ public class SoloExecutor {
 			return result;
 		}
 		By by = parseWebComponenetLocator(byStr, expression);
-		;
 		try {
 			solo.enterTextInWebElement(by, text);
 			result.setSucceeded(true);
 			result.setResponse("Entered text in web element using locator " + byStr + " and expression " + expression);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			result = handleException(result.getOriginalCommand(), e);
 		}
 		return result;
@@ -212,7 +229,7 @@ public class SoloExecutor {
 			result.setSucceeded(true);
 			result.setResponse("Clicked on web element using locator " + byStr + " and expression " + expression);
 
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			result = handleException(result.getOriginalCommand(), e);
 		}
 

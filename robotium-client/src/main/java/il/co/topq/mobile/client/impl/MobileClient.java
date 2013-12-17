@@ -258,6 +258,11 @@ public class MobileClient implements MobileClientInterface {
 	public CommandResponse waitForActivity(String activityName, int timeout) throws Exception {
 		return sendData("waitForActivity", activityName, Integer.toString(timeout));
 	}
+	
+	@Override
+	public CommandResponse finishOpenedActivities() throws Exception {
+		return sendData("finishOpenedActivities");
+	}
 
 	/**
 	 * will click on the single input char
@@ -437,5 +442,6 @@ public class MobileClient implements MobileClientInterface {
 	public CommandResponse enterTextInWebElement(String by, String expression, String text) throws Exception {
 		return sendData("enterTextInWebElement", by, expression, text);
 	}
+
 
 }
